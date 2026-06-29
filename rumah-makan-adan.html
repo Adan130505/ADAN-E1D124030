@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rumah Makan Adan – Cita Rasa Nusantara</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Lato:wght@300;400;700&family=Cormorant+Garamond:ital,wght@1,400;1,600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --maroon:   #8B1A1A;
+      --maroon-d: #5E0E0E;
+      --gold:     #C8A84B;
+      --gold-l:   #E5CC80;
+      --cream:    #FDF6EC;
+      --cream-d:  #F5E9D3;
+      --bark:     #2C1810;
+      --bark-l:   #4A2E20;
+      --white:    #FFFFFF;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Lato', sans-serif; background: var(--cream); color: var(--bark); overflow-x: hidden; }
+
+    /* NAVBAR */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      background: var(--bark);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px; height: 68px;
+      box-shadow: 0 2px 20px rgba(0,0,0,.4);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .nav-logo-icon { width: 42px; height: 42px; }
+    .nav-brand-name { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.15rem; font-weight: 700; letter-spacing: .5px; line-height: 1.15; }
+    .nav-brand-name span { display: block; font-family: 'Lato', sans-serif; font-size: .65rem; font-weight: 300; color: var(--gold-l); letter-spacing: 3px; text-transform: uppercase; }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { color: var(--cream); text-decoration: none; font-size: .85rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; position: relative; padding-bottom: 4px; transition: color .25s; }
+    .nav-links a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: var(--gold); transition: width .3s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .page { min-height: 100vh; padding-top: 68px; }
+
+    /* HERO */
+    #beranda { background: var(--bark); position: relative; overflow: hidden; }
+    #beranda::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 50%, rgba(200,168,75,.08) 0%, transparent 60%), radial-gradient(circle at 80% 20%, rgba(139,26,26,.3) 0%, transparent 50%); pointer-events: none; }
+
+    .hero { display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 0; min-height: calc(100vh - 68px); }
+    .hero-left { padding: 80px 60px 80px 80px; position: relative; }
+    .hero-eyebrow { font-size: .72rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; }
+    .hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--gold); }
+    .hero-title { font-family: 'Playfair Display', serif; color: var(--cream); font-size: clamp(2.8rem, 5vw, 4.5rem); font-weight: 900; line-height: 1.08; margin-bottom: 8px; }
+    .hero-title em { color: var(--gold); font-style: italic; font-family: 'Cormorant Garamond', serif; font-weight: 600; font-size: 1.05em; }
+    .hero-slogan { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 1.35rem; color: var(--gold-l); margin: 18px 0 36px; line-height: 1.5; }
+    .hero-desc { color: rgba(253,246,236,.65); font-size: .95rem; line-height: 1.8; max-width: 440px; margin-bottom: 48px; }
+    .hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    .btn-primary { background: var(--gold); color: var(--bark); padding: 14px 32px; font-size: .82rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: background .25s, transform .2s; display: inline-block; }
+    .btn-primary:hover { background: var(--gold-l); transform: translateY(-2px); }
+    .btn-outline { border: 1.5px solid var(--gold); color: var(--gold); padding: 14px 32px; font-size: .82rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; text-decoration: none; cursor: pointer; transition: background .25s, color .25s, transform .2s; display: inline-block; background: transparent; }
+    .btn-outline:hover { background: var(--gold); color: var(--bark); transform: translateY(-2px); }
+
+    /* Hero Right - Food Photo */
+    .hero-right { position: relative; min-height: calc(100vh - 68px); overflow: hidden; }
+    .hero-right img { width: 100%; height: 100%; object-fit: cover; opacity: .55; display: block; }
+    .hero-right-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, var(--bark) 0%, transparent 40%); }
+    .hero-right-badge { position: absolute; bottom: 40px; right: 40px; background: rgba(200,168,75,.15); border: 1px solid rgba(200,168,75,.4); backdrop-filter: blur(8px); padding: 20px 28px; text-align: center; }
+    .hero-right-badge .big-logo-name { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 2rem; font-weight: 900; letter-spacing: 3px; }
+    .hero-right-badge .big-logo-sub { font-size: .62rem; letter-spacing: 6px; text-transform: uppercase; color: rgba(200,168,75,.6); margin-top: 4px; }
+
+    /* Stats Bar */
+    .stats-bar { display: grid; grid-template-columns: repeat(3,1fr); background: var(--maroon); border-top: 1px solid rgba(200,168,75,.2); }
+    .stat-item { text-align: center; padding: 32px 20px; border-right: 1px solid rgba(200,168,75,.15); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold); font-weight: 900; }
+    .stat-label { font-size: .72rem; letter-spacing: 2px; text-transform: uppercase; color: var(--cream-d); margin-top: 4px; }
+
+    /* About */
+    .about-section { background: var(--cream); padding: 100px 80px; display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .section-eyebrow { font-size: .7rem; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); font-weight: 700; margin-bottom: 16px; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--bark); line-height: 1.2; margin-bottom: 24px; }
+    .section-title em { color: var(--maroon); font-style: italic; font-family: 'Cormorant Garamond', serif; }
+    .section-text { color: var(--bark-l); line-height: 1.9; font-size: .95rem; margin-bottom: 16px; }
+    .divider-gold { width: 60px; height: 3px; background: linear-gradient(90deg, var(--gold), transparent); margin: 28px 0; }
+
+    /* About photo collage */
+    .about-visual { position: relative; }
+    .about-photo-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px; gap: 8px; }
+    .about-photo-grid img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .about-photo-grid img:first-child { grid-column: 1 / 2; grid-row: 1 / 3; height: 100%; }
+    .about-card { background: var(--bark); padding: 24px; margin-top: 8px; }
+    .about-card-icon { font-size: 1.8rem; margin-bottom: 10px; }
+    .about-card-title { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.1rem; margin-bottom: 8px; }
+    .about-card-list { list-style: none; margin-top: 10px; }
+    .about-card-list li { color: var(--cream-d); font-size: .82rem; padding: 6px 0; border-bottom: 1px solid rgba(200,168,75,.1); display: flex; align-items: center; gap: 10px; }
+    .about-card-list li::before { content: '◆'; color: var(--gold); font-size: .45rem; }
+
+    /* PRODUK */
+    #produk { background: var(--cream-d); padding: 100px 80px; }
+    .produk-header { text-align: center; margin-bottom: 70px; }
+    .produk-header .section-title { font-size: clamp(2rem,4vw,3rem); }
+
+    .category-tabs { display: flex; justify-content: center; gap: 0; margin-bottom: 60px; border: 1.5px solid var(--maroon); width: fit-content; margin-left: auto; margin-right: auto; overflow: hidden; }
+    .tab-btn { padding: 12px 28px; background: transparent; border: none; border-right: 1.5px solid var(--maroon); color: var(--maroon); font-size: .78rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; cursor: pointer; transition: background .25s, color .25s; font-family: 'Lato', sans-serif; }
+    .tab-btn:last-child { border-right: none; }
+    .tab-btn.active, .tab-btn:hover { background: var(--maroon); color: var(--cream); }
+
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 28px; }
+    .menu-card { background: var(--white); overflow: hidden; box-shadow: 0 4px 20px rgba(44,24,16,.08); transition: transform .3s, box-shadow .3s; position: relative; }
+    .menu-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(44,24,16,.15); }
+
+    /* Food photo in card */
+    .menu-card-img {
+      width: 100%; height: 210px;
+      position: relative; overflow: hidden;
+    }
+    .menu-card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform .4s ease;
+    }
+    .menu-card:hover .menu-card-img img { transform: scale(1.06); }
+    .menu-card-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(44,24,16,.35) 0%, transparent 60%);
+    }
+
+    .menu-card-body { padding: 24px; }
+    .menu-tag { font-size: .65rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; color: var(--maroon); background: rgba(139,26,26,.08); padding: 3px 10px; margin-bottom: 10px; display: inline-block; }
+    .menu-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--bark); margin-bottom: 8px; }
+    .menu-desc { font-size: .83rem; color: var(--bark-l); line-height: 1.7; margin-bottom: 16px; }
+    .menu-footer { display: flex; align-items: center; justify-content: space-between; }
+    .menu-price { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--maroon); font-weight: 700; }
+    .menu-badge { font-size: .65rem; background: var(--gold); color: var(--bark); padding: 3px 10px; font-weight: 700; letter-spacing: 1px; }
+    .popular-badge { position: absolute; top: 14px; right: 14px; background: var(--maroon); color: var(--gold); font-size: .65rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 700; padding: 4px 12px; z-index: 2; }
+    .hidden { display: none; }
+
+    /* PEMESANAN */
+    #pemesanan { background: var(--bark); padding: 100px 80px; position: relative; overflow: hidden; }
+    #pemesanan::before { content: ''; position: absolute; top: -200px; right: -200px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(139,26,26,.25) 0%, transparent 70%); pointer-events: none; }
+    .pemesanan-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: start; position: relative; }
+    .form-info h2 { font-family: 'Playfair Display', serif; color: var(--cream); font-size: clamp(2rem,3.5vw,3rem); line-height: 1.15; margin-bottom: 20px; }
+    .form-info h2 em { color: var(--gold); font-style: italic; font-family: 'Cormorant Garamond', serif; }
+    .form-info p { color: rgba(253,246,236,.6); line-height: 1.8; font-size: .92rem; margin-bottom: 40px; }
+    .contact-list { list-style: none; }
+    .contact-list li { display: flex; align-items: center; gap: 14px; color: var(--cream-d); font-size: .88rem; padding: 12px 0; border-bottom: 1px solid rgba(200,168,75,.1); }
+    .contact-list li:last-child { border-bottom: none; }
+    .contact-list .icon { width: 38px; height: 38px; background: rgba(200,168,75,.1); border: 1px solid rgba(200,168,75,.2); display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+
+    /* Food photo strip in form info */
+    .form-food-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 32px; }
+    .form-food-strip img { width: 100%; height: 100px; object-fit: cover; display: block; opacity: .75; transition: opacity .3s; }
+    .form-food-strip img:hover { opacity: 1; }
+
+    .order-form { background: var(--cream); padding: 48px; position: relative; }
+    .order-form::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--maroon), var(--gold)); }
+    .form-title { font-family: 'Playfair Display', serif; font-size: 1.6rem; color: var(--bark); margin-bottom: 8px; }
+    .form-subtitle { font-size: .82rem; color: var(--bark-l); margin-bottom: 32px; letter-spacing: .5px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: .75rem; letter-spacing: 1.5px; text-transform: uppercase; font-weight: 700; color: var(--bark); margin-bottom: 8px; }
+    .form-label span { color: var(--maroon); }
+    .form-input, .form-select, .form-textarea { width: 100%; padding: 12px 16px; border: 1.5px solid rgba(44,24,16,.2); background: var(--white); font-family: 'Lato', sans-serif; font-size: .9rem; color: var(--bark); transition: border-color .25s; outline: none; appearance: none; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); }
+    .form-textarea { resize: vertical; min-height: 100px; }
+    .form-select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%232C1810' d='M6 8L0 0h12z'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+    .menu-select-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+    .menu-checkbox { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border: 1.5px solid rgba(44,24,16,.15); cursor: pointer; transition: border-color .2s, background .2s; }
+    .menu-checkbox input[type="checkbox"] { accent-color: var(--maroon); }
+    .menu-checkbox:hover { border-color: var(--gold); background: rgba(200,168,75,.05); }
+    .menu-checkbox label { font-size: .82rem; color: var(--bark); cursor: pointer; }
+    .form-submit { width: 100%; background: var(--maroon); color: var(--cream); padding: 16px; font-size: .82rem; letter-spacing: 2.5px; text-transform: uppercase; font-weight: 700; border: none; cursor: pointer; font-family: 'Lato', sans-serif; transition: background .25s, transform .2s; margin-top: 8px; }
+    .form-submit:hover { background: var(--maroon-d); transform: translateY(-2px); }
+    .success-msg { display: none; text-align: center; padding: 40px 20px; }
+    .success-msg .check { font-size: 4rem; margin-bottom: 16px; }
+    .success-msg h3 { font-family: 'Playfair Display', serif; color: var(--maroon); font-size: 1.6rem; margin-bottom: 8px; }
+    .success-msg p { color: var(--bark-l); font-size: .9rem; }
+
+    /* FOOTER */
+    footer { background: #1A0E08; text-align: center; padding: 36px 40px; border-top: 1px solid rgba(200,168,75,.15); }
+    .footer-brand { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 1.1rem; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+    .footer-tagline { font-family: 'Cormorant Garamond', serif; font-style: italic; color: rgba(200,168,75,.5); font-size: .9rem; margin-bottom: 20px; }
+    .footer-copy { font-size: .75rem; color: rgba(253,246,236,.3); letter-spacing: 1px; }
+    .footer-divider { width: 40px; height: 1px; background: rgba(200,168,75,.3); margin: 16px auto; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      nav { padding: 0 20px; }
+      .nav-links { gap: 16px; }
+      .nav-links a { font-size: .72rem; letter-spacing: 1px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-right { display: none; }
+      .hero-left { padding: 60px 30px; }
+      .stats-bar { grid-template-columns: repeat(3,1fr); }
+      .about-section { grid-template-columns: 1fr; gap: 40px; padding: 60px 30px; }
+      #produk { padding: 60px 20px; }
+      .pemesanan-grid { grid-template-columns: 1fr; gap: 40px; }
+      #pemesanan { padding: 60px 20px; }
+      .order-form { padding: 28px 20px; }
+      .form-row { grid-template-columns: 1fr; }
+      .menu-select-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <a href="#beranda" class="nav-brand">
+    <svg class="nav-logo-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="40" cy="40" r="38" stroke="#C8A84B" stroke-width="1.5"/>
+      <circle cx="40" cy="40" r="31" stroke="#C8A84B" stroke-width="0.6" stroke-dasharray="3 4"/>
+      <path d="M28 28 Q26 22 28 17 Q30 12 28 7" stroke="#C8A84B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M40 26 Q38 20 40 15 Q42 10 40 5" stroke="#C8A84B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <path d="M52 28 Q50 22 52 17 Q54 12 52 7" stroke="#C8A84B" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+      <ellipse cx="40" cy="44" rx="20" ry="5" stroke="#C8A84B" stroke-width="1.8" fill="none"/>
+      <path d="M20 44 Q20 62 40 64 Q60 62 60 44" stroke="#C8A84B" stroke-width="1.8" fill="rgba(200,168,75,0.12)"/>
+      <line x1="32" y1="36" x2="24" y2="68" stroke="#C8A84B" stroke-width="1.4" stroke-linecap="round"/>
+      <line x1="36" y1="36" x2="30" y2="68" stroke="#C8A84B" stroke-width="1.4" stroke-linecap="round"/>
+    </svg>
+    <div class="nav-brand-name">
+      Rumah Makan Adan
+      <span>Cita Rasa Nusantara</span>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#beranda">Beranda</a></li>
+    <li><a href="#produk">Produk</a></li>
+    <li><a href="#pemesanan">Pesan Sekarang</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HALAMAN 1 – BERANDA ═══ -->
+<section class="page" id="beranda">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Sejak 2005 · Palembang</div>
+      <h1 class="hero-title">Rumah Makan<br><em>Adan</em></h1>
+      <p class="hero-slogan">"Tempat Pulang Rasa, Setiap Suapan."</p>
+      <p class="hero-desc">Menyajikan masakan Nusantara autentik dengan bumbu pilihan dan resep turun-temurun. Setiap hidangan dimasak dengan cinta, disajikan dengan kehangatan — layaknya makan di rumah sendiri.</p>
+      <div class="hero-cta">
+        <a href="#produk" class="btn-primary">Lihat Menu</a>
+        <a href="#pemesanan" class="btn-outline">Pesan Sekarang</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <!-- Hero: Indonesian nasi/rice dish from Unsplash (free license) -->
+      <img
+        src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=900&q=80&auto=format&fit=crop"
+        alt="Sajian makanan Rumah Makan Adan"
+        loading="eager"
+      />
+      <div class="hero-right-overlay"></div>
+      <div class="hero-right-badge">
+        <div class="big-logo-name">ADAN</div>
+        <div class="big-logo-sub">Rumah Makan</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-item"><div class="stat-num">20+</div><div class="stat-label">Tahun Berpengalaman</div></div>
+    <div class="stat-item"><div class="stat-num">50+</div><div class="stat-label">Menu Pilihan</div></div>
+    <div class="stat-item"><div class="stat-num">1000+</div><div class="stat-label">Pelanggan Setia</div></div>
+  </div>
+
+  <!-- About -->
+  <div class="about-section">
+    <div>
+      <div class="section-eyebrow">Tentang Kami</div>
+      <h2 class="section-title">Warisan Rasa yang <em>Tak Lekang Waktu</em></h2>
+      <div class="divider-gold"></div>
+      <p class="section-text">Rumah Makan Adan berdiri sejak tahun 2005, dirintis oleh Bapak Adan dengan semangat menghadirkan cita rasa masakan Nusantara yang otentik dan memuaskan selera. Kami percaya bahwa makanan yang baik lahir dari bahan-bahan segar, bumbu pilihan, dan ketulusan dalam memasak.</p>
+      <p class="section-text">Berlokasi di jantung kota Palembang, rumah makan kami telah menjadi destinasi favorit keluarga, komunitas, dan para pekerja yang mendambakan makan berkualitas tanpa merogoh kocek dalam-dalam.</p>
+      <p class="section-text">Dengan keahlian memasak yang diwariskan turun-temurun, kami menjaga keaslian rasa sambil terus berinovasi menghadirkan menu-menu baru yang memikat lidah.</p>
+    </div>
+    <div class="about-visual">
+      <!-- Photo collage: 3 food images -->
+      <div class="about-photo-grid">
+        <img
+          src="https://images.unsplash.com/photo-1555126634-323283e090fa?w=600&q=80&auto=format&fit=crop"
+          alt="Masakan Indonesia"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80&auto=format&fit=crop"
+          alt="Sajian Nusantara"
+        />
+        <img
+          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400&q=80&auto=format&fit=crop"
+          alt="Makanan tradisional"
+        />
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🍽️</div>
+        <div class="about-card-title">Keunggulan Kami</div>
+        <ul class="about-card-list">
+          <li>Bahan-bahan segar pilihan setiap hari</li>
+          <li>Resep otentik warisan leluhur</li>
+          <li>Dapur higienis bersertifikat</li>
+          <li>Layanan ramah dan cepat</li>
+          <li>Harga terjangkau untuk semua kalangan</li>
+          <li>Tersedia layanan pesan antar</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ HALAMAN 2 – PRODUK ═══ -->
+<section class="page" id="produk">
+  <div class="produk-header">
+    <div class="section-eyebrow">Menu Pilihan</div>
+    <h2 class="section-title">Sajian <em>Terbaik</em> Kami</h2>
+    <div class="divider-gold" style="margin:16px auto;"></div>
+    <p style="color:var(--bark-l);font-size:.92rem;max-width:500px;margin:0 auto;">Disiapkan dengan cinta, disajikan dengan senyum — setiap menu adalah pengalaman kuliner yang tak terlupakan.</p>
+  </div>
+
+  <div class="category-tabs">
+    <button class="tab-btn active" onclick="filterMenu('semua',this)">Semua</button>
+    <button class="tab-btn" onclick="filterMenu('nasi',this)">Nasi &amp; Lauk</button>
+    <button class="tab-btn" onclick="filterMenu('sup',this)">Sup &amp; Soto</button>
+    <button class="tab-btn" onclick="filterMenu('minuman',this)">Minuman</button>
+    <button class="tab-btn" onclick="filterMenu('dessert',this)">Dessert</button>
+  </div>
+
+  <div class="menu-grid" id="menuGrid">
+
+    <!-- NASI & LAUK -->
+    <div class="menu-card" data-cat="nasi">
+      <div class="menu-card-img">
+        <span class="popular-badge">⭐ Favorit</span>
+        <img src="https://images.unsplash.com/photo-1612927601601-6638404737ce?w=600&q=80&auto=format&fit=crop" alt="Nasi Minyak Adan" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Nasi &amp; Lauk</span>
+        <div class="menu-name">Nasi Minyak Adan</div>
+        <div class="menu-desc">Nasi gurih khas Palembang dimasak dengan ghee, bawang goreng, dan rempah pilihan. Disajikan dengan lauk ayam semur.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 25.000</span><span class="menu-badge">BEST SELLER</span></div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="nasi">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=600&q=80&auto=format&fit=crop" alt="Nasi Ayam Bakar" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Nasi &amp; Lauk</span>
+        <div class="menu-name">Nasi Ayam Bakar Kecap</div>
+        <div class="menu-desc">Ayam kampung pilihan dibakar sempurna dengan bumbu kecap manis dan rempah rahasia Adan. Disajikan dengan nasi putih hangat.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 30.000</span></div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="nasi">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=600&q=80&auto=format&fit=crop" alt="Rendang Daging" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Nasi &amp; Lauk</span>
+        <div class="menu-name">Rendang Daging Sapi</div>
+        <div class="menu-desc">Rendang autentik dimasak berjam-jam dengan santan dan 18 jenis rempah. Tekstur empuk, rasa kaya, aroma menggoda.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 35.000</span><span class="menu-badge">SPESIAL</span></div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="nasi">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&q=80&auto=format&fit=crop" alt="Udang Balado" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Nasi &amp; Lauk</span>
+        <div class="menu-name">Udang Balado Merah</div>
+        <div class="menu-desc">Udang segar dibalut sambal balado merah yang pedas menggigit, cocok untuk pencinta makanan pedas sejati.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 32.000</span></div>
+      </div>
+    </div>
+
+    <!-- SUP & SOTO -->
+    <div class="menu-card" data-cat="sup">
+      <div class="menu-card-img">
+        <span class="popular-badge">⭐ Favorit</span>
+        <img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=600&q=80&auto=format&fit=crop" alt="Pempek Kuah Cuka" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Sup &amp; Soto</span>
+        <div class="menu-name">Pempek Kuah Cuka</div>
+        <div class="menu-desc">Pempek kapal selam dan lenjer asli Palembang disajikan dengan kuah cuka pedas manis khas yang menyegarkan.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 22.000</span><span class="menu-badge">KHAS ADAN</span></div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="sup">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80&auto=format&fit=crop" alt="Soto Ayam" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Sup &amp; Soto</span>
+        <div class="menu-name">Soto Ayam Kampung</div>
+        <div class="menu-desc">Kuah bening segar dengan irisan ayam kampung, tauge, soun, dan telur rebus. Cocok disantap kapan saja.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 20.000</span></div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="sup">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80&auto=format&fit=crop" alt="Model Tekwan" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Sup &amp; Soto</span>
+        <div class="menu-name">Model &amp; Tekwan</div>
+        <div class="menu-desc">Sajian khas Palembang — tekwan dan model dengan kuah udang gurih, bengkuang, dan jamur kuping yang harum.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 23.000</span></div>
+      </div>
+    </div>
+
+    <!-- MINUMAN -->
+    <div class="menu-card" data-cat="minuman">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1499638673689-79a0b5115d87?w=600&q=80&auto=format&fit=crop" alt="Es Teh Manis" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Minuman</span>
+        <div class="menu-name">Es Teh Manis</div>
+        <div class="menu-desc">Teh manis segar khas warung makan, disajikan dingin dengan es batu yang menyegarkan di setiap tegukan.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 5.000</span></div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="minuman">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=600&q=80&auto=format&fit=crop" alt="Es Jeruk Peras" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Minuman</span>
+        <div class="menu-name">Es Jeruk Peras</div>
+        <div class="menu-desc">Jeruk manis segar diperas langsung, disajikan dengan es batu. Menyegarkan dan kaya vitamin C alami.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 8.000</span></div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="minuman">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&q=80&auto=format&fit=crop" alt="Kopi Tubruk" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Minuman</span>
+        <div class="menu-name">Kopi Tubruk Robusta</div>
+        <div class="menu-desc">Kopi robusta pilihan dari dataran tinggi Sumatera Selatan, diseduh dengan cara tubruk tradisional yang kuat dan beraroma.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 7.000</span></div>
+      </div>
+    </div>
+
+    <!-- DESSERT -->
+    <div class="menu-card" data-cat="dessert">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=600&q=80&auto=format&fit=crop" alt="Kue Maksuba" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Dessert</span>
+        <div class="menu-name">Kue Maksuba</div>
+        <div class="menu-desc">Kue lapis khas Palembang yang kaya telur dan susu, lembut di lidah dengan lapisan berwarna keemasan yang cantik.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 12.000</span><span class="menu-badge">TRADISIONAL</span></div>
+      </div>
+    </div>
+
+    <div class="menu-card" data-cat="dessert">
+      <div class="menu-card-img">
+        <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600&q=80&auto=format&fit=crop" alt="Es Kacang Merah" loading="lazy"/>
+        <div class="menu-card-img-overlay"></div>
+      </div>
+      <div class="menu-card-body">
+        <span class="menu-tag">Dessert</span>
+        <div class="menu-name">Es Kacang Merah</div>
+        <div class="menu-desc">Kacang merah rebus empuk di atas serutan es, disiram santan dan gula merah. Penutup makan yang sempurna dan menyegarkan.</div>
+        <div class="menu-footer"><span class="menu-price">Rp 10.000</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ HALAMAN 3 – PEMESANAN ═══ -->
+<section class="page" id="pemesanan">
+  <div class="pemesanan-grid">
+    <div class="form-info">
+      <div class="section-eyebrow" style="color:var(--gold-l)">Pesan Sekarang</div>
+      <h2>Pesan dengan <em>Mudah &amp; Cepat</em></h2>
+      <p>Isi formulir pemesanan dan kami akan segera menghubungi Anda untuk konfirmasi. Tersedia pilihan makan di tempat atau pesan antar ke alamat Anda.</p>
+      <ul class="contact-list">
+        <li><div class="icon">📍</div><div>Jl. Demang Lebar Daun No. 45, Palembang, Sumatera Selatan 30137</div></li>
+        <li><div class="icon">📞</div><div>+62 812-3456-7890 (WA &amp; Telepon)</div></li>
+        <li><div class="icon">🕐</div><div>Senin – Minggu: 07.00 – 21.00 WIB</div></li>
+        <li><div class="icon">🛵</div><div>Antar gratis radius 3 km, min. pemesanan Rp 50.000</div></li>
+      </ul>
+      <!-- Food photo strip -->
+      <div class="form-food-strip">
+        <img src="https://images.unsplash.com/photo-1555126634-323283e090fa?w=400&q=75&auto=format&fit=crop" alt="Makanan 1" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1574484284002-952d92456975?w=400&q=75&auto=format&fit=crop" alt="Makanan 2" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=400&q=75&auto=format&fit=crop" alt="Makanan 3" loading="lazy"/>
+        <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&q=75&auto=format&fit=crop" alt="Minuman" loading="lazy"/>
+      </div>
+    </div>
+
+    <div class="order-form" id="orderFormWrap">
+      <div id="formContent">
+        <div class="form-title">Formulir Pemesanan</div>
+        <div class="form-subtitle">Lengkapi data di bawah ini dengan benar</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nama Lengkap <span>*</span></label>
+            <input type="text" class="form-input" id="fNama" placeholder="Nama Anda" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">No. WhatsApp <span>*</span></label>
+            <input type="tel" class="form-input" id="fWa" placeholder="08xxxxxxxxxx" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Jenis Pesanan <span>*</span></label>
+          <select class="form-select" id="fJenis">
+            <option value="">-- Pilih Jenis Pesanan --</option>
+            <option>Makan di Tempat (Dine In)</option>
+            <option>Bawa Pulang (Take Away)</option>
+            <option>Antar ke Alamat (Delivery)</option>
+          </select>
+        </div>
+
+        <div class="form-group" id="alamatGroup" style="display:none">
+          <label class="form-label">Alamat Pengiriman <span>*</span></label>
+          <textarea class="form-textarea" id="fAlamat" placeholder="Masukkan alamat lengkap..." style="min-height:70px;"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Tanggal Pesanan <span>*</span></label>
+            <input type="date" class="form-input" id="fTanggal" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Waktu Pesanan <span>*</span></label>
+            <select class="form-select" id="fWaktu">
+              <option value="">-- Pilih Waktu --</option>
+              <option>07.00 – 09.00 WIB (Sarapan)</option>
+              <option>11.00 – 13.00 WIB (Makan Siang)</option>
+              <option>17.00 – 19.00 WIB (Makan Sore)</option>
+              <option>19.00 – 21.00 WIB (Makan Malam)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Pilih Menu <span>*</span></label>
+          <div class="menu-select-grid">
+            <label class="menu-checkbox"><input type="checkbox" value="Nasi Minyak Adan"/> <label>🍛 Nasi Minyak Adan</label></label>
+            <label class="menu-checkbox"><input type="checkbox" value="Nasi Ayam Bakar"/> <label>🍖 Nasi Ayam Bakar</label></label>
+            <label class="menu-checkbox"><input type="checkbox" value="Rendang Daging Sapi"/> <label>🥩 Rendang Daging</label></label>
+            <label class="menu-checkbox"><input type="checkbox" value="Udang Balado Merah"/> <label>🦐 Udang Balado</label></label>
+            <label class="menu-checkbox"><input type="checkbox" value="Pempek Kuah Cuka"/> <label>🍲 Pempek Kuah Cuka</label></label>
+            <label class="menu-checkbox"><input type="checkbox" value="Soto Ayam Kampung"/> <label>🍜 Soto Ayam</label></label>
+            <label class="menu-checkbox"><input type="checkbox" value="Model & Tekwan"/> <label>🍵 Model &amp; Tekwan</label></label>
+            <label class="menu-checkbox"><input type="checkbox" value="Kue Maksuba"/> <label>🍮 Kue Maksuba</label></label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Jumlah Porsi <span>*</span></label>
+          <select class="form-select" id="fPorsi">
+            <option value="">-- Pilih Jumlah --</option>
+            <option>1 Porsi</option>
+            <option>2 Porsi</option>
+            <option>3 Porsi</option>
+            <option>4 – 5 Porsi</option>
+            <option>6 – 10 Porsi (Paket Keluarga)</option>
+            <option>Lebih dari 10 Porsi (Catering)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Catatan Tambahan</label>
+          <textarea class="form-textarea" id="fCatatan" placeholder="Tingkat kepedasan, alergi makanan, permintaan khusus..."></textarea>
+        </div>
+
+        <button class="form-submit" onclick="submitOrder()">🛎️ &nbsp; Kirim Pesanan</button>
+      </div>
+
+      <div class="success-msg" id="successMsg">
+        <div class="check">✅</div>
+        <h3>Pesanan Terkirim!</h3>
+        <p>Terima kasih telah memesan di Rumah Makan Adan.<br>Kami akan menghubungi Anda via WhatsApp dalam 5–10 menit untuk konfirmasi pesanan.</p>
+        <div style="margin-top:28px;"><a href="#produk" class="btn-primary" style="font-size:.78rem">Lihat Menu Lain</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">Rumah Makan Adan</div>
+  <div class="footer-tagline">"Tempat Pulang Rasa, Setiap Suapan."</div>
+  <div class="footer-divider"></div>
+  <div class="footer-copy">© 2025 Rumah Makan Adan · Palembang, Sumatera Selatan · Semua Hak Dilindungi</div>
+</footer>
+
+<script>
+  function filterMenu(cat, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.menu-card').forEach(card => {
+      card.classList.toggle('hidden', cat !== 'semua' && card.dataset.cat !== cat);
+    });
+  }
+  document.getElementById('fJenis').addEventListener('change', function() {
+    document.getElementById('alamatGroup').style.display = this.value.includes('Delivery') ? 'block' : 'none';
+  });
+  document.getElementById('fTanggal').setAttribute('min', new Date().toISOString().split('T')[0]);
+  document.getElementById('fTanggal').value = new Date().toISOString().split('T')[0];
+
+  function submitOrder() {
+    const nama  = document.getElementById('fNama').value.trim();
+    const wa    = document.getElementById('fWa').value.trim();
+    const jenis = document.getElementById('fJenis').value;
+    const waktu = document.getElementById('fWaktu').value;
+    const porsi = document.getElementById('fPorsi').value;
+    const checked = [...document.querySelectorAll('.menu-select-grid input:checked')];
+    if (!nama || !wa || !jenis || !waktu || !porsi || checked.length === 0) {
+      alert('⚠️ Mohon lengkapi semua kolom yang wajib diisi dan pilih minimal satu menu.');
+      return;
+    }
+    if (jenis.includes('Delivery') && !document.getElementById('fAlamat').value.trim()) {
+      alert('⚠️ Silakan isi alamat pengiriman.');
+      return;
+    }
+    document.getElementById('formContent').style.display = 'none';
+    document.getElementById('successMsg').style.display  = 'block';
+  }
+
+  window.addEventListener('scroll', () => {
+    const links = document.querySelectorAll('.nav-links a');
+    let current = '';
+    ['beranda','produk','pemesanan'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 100) current = id;
+    });
+    links.forEach(a => { a.style.color = a.getAttribute('href') === '#'+current ? 'var(--gold)' : ''; });
+  });
+</script>
+</body>
+</html>
